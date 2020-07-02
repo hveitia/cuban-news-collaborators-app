@@ -19,13 +19,13 @@ class MediaProvider {
 
   Future<List<Media>> getMedias() async {
     final url = configProvider.getEnvironment() == 'prod'
-        ? Uri.https(configProvider.getUrl(), '/api/media')
-        : Uri.http(configProvider.getUrl(), '/api/media');
+        ? Uri.https(configProvider.getUrl(), '/api/media-youtube')
+        : Uri.http(configProvider.getUrl(), '/api/media-youtube');
 
     return await _proccesResponse(url);
   }
 
-  void setLiveTransmition(dynamic data) async {
+  Future<dynamic> setLiveTransmition(dynamic data) async {
 
     final url = configProvider.getEnvironment() == 'prod'
         ? Uri.https(configProvider.getUrl(), '/api/media/${data['hashToken']}')
@@ -38,7 +38,7 @@ class MediaProvider {
       'liveDuration': data['liveDuration']
     };
 
-    await http.put(url, body: payload);
+    return await http.put(url, body: payload);
 
   }
 }
